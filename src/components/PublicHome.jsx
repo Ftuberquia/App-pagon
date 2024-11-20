@@ -1,7 +1,7 @@
 import React from 'react';
-import './Home.scss';
+import './PublicHome.scss';
 
-const Home = () => {
+const PublicHome = () => {
     return (
         <div className="home">
             <header className="home__header">
@@ -19,4 +19,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default PublicHome;

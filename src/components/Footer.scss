@@ -1,0 +1,96 @@
+.footer {
+    background-color: #00b50f;
+    color: #ecf0f1;
+    text-align: center;
+    position: fixed;
+    /* Fija el footer en la pantalla */
+    bottom: 0;
+    /* Siempre en la parte inferior */
+    width: 100%;
+    /* Ocupa todo el ancho */
+    display: flex;
+    /* Para alinear contenido horizontalmente */
+    justify-content: space-between;
+    /* Espacia los elementos */
+    align-items: center;
+    /* Alineación vertical centrada */
+}
+
+/* Contenedor del contenido del footer */
+.footer__content {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Descripción o texto principal del footer */
+.footer__description {
+    max-width: 600px;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* Contenedor de íconos o enlaces */
+.footer__links {
+    display: flex;
+    gap: 10px;
+}
+
+/* Estilo de los enlaces del footer */
+.footer__link {
+    font-size: 50px;
+    margin-right: 50px;
+    transition: transform 0.4s ease, color 0.3s ease;
+    color: #000;
+}
+
+.footer__link:hover {
+    transform: scale(1.4);
+    color: #ecf0f1;
+}
+
+/* Configuración para sticky footer */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .footer {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .footer__description {
+        font-size: 14px;
+    }
+
+    .footer__link {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        padding: 15px;
+    }
+
+    .footer__description {
+        font-size: 12px;
+    }
+
+    .footer__link {
+        font-size: 24px;
+    }
+}
