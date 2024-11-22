@@ -4,45 +4,56 @@ import React, { useState } from 'react';
 const LoginPage = () => {
     const [showEmailTooltip, setShowEmailTooltip] = useState(false);
     const [showPasswordTooltip, setShowPasswordTooltip] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(''); // Estado para el mensaje de alerta
+    const [alertType, setAlertType] = useState(''); // Estado para el tipo de alerta (error, éxito, etc.)
 
     const handleLogin = (e) => {
         e.preventDefault();
 
-        // Obtener valores de los inputs
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
 
-        // Validar que los campos no estén vacíos
         if (!email || !password) {
-            alert('Por favor, completa todos los campos.');
+            setAlertMessage('Por favor, completa todos los campos.');
+            setAlertType('error');
             return;
         }
 
-        // Validar formato de email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            alert('Por favor, ingresa un correo electrónico válido.');
+            setAlertMessage('Por favor, ingresa un correo electrónico válido.');
+            setAlertType('error');
             return;
         }
 
-        // Verificar las credenciales con los datos almacenados en localStorage
         const users = JSON.parse(localStorage.getItem('users')) || [];
         const user = users.find((u) => u.email === email && u.password === password);
 
         if (!user) {
-            alert('Correo o contraseña incorrectos. Intenta nuevamente.');
+            setAlertMessage('Correo o contraseña incorrectos. Intenta nuevamente.');
+            setAlertType('error');
             return;
         }
 
-        // Almacenar el usuario autenticado en localStorage
         localStorage.setItem('authUser', JSON.stringify(user));
-        alert('Inicio de sesión exitoso.');
-        window.location.href = '/home'; // Redirigir a la página privada
+        setAlertMessage('Inicio de sesión exitoso');
+        setAlertType('success');
+        setTimeout(() => {
+            window.location.href = '/home';
+        }, 1000); // Redirigir después de un segundo
     };
 
     return (
         <div className="login-page">
             <h1>Iniciar Sesión</h1>
+
+            {/* Alerta */}
+            {alertMessage && (
+                <div className={`alert ${alertType}`}>
+                    {alertMessage}
+                </div>
+            )}
+
             <form className="login-form" onSubmit={handleLogin}>
                 <div className="form-group" style={{ position: 'relative' }}>
                     <label htmlFor="email">Correo Electrónico</label>

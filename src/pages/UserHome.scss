@@ -1,20 +1,112 @@
+// Mensaje de alerta
+.alert {
+    margin: 15px 0;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+    display: inline-block;
+    max-width: 90%;
+    margin: 15px auto;
+}
+
+// Alerta de error
+.alert.error {
+    background-color: #ffe5e5;
+    color: #d9534f;
+    border: 1px solid #d9534f;
+}
+
+// Alerta de éxito
+.alert.success {
+    background-color: #e5ffe5;
+    color: #5cb85c;
+    border: 1px solid #5cb85c;
+}
+
+// Mensaje de información
+.alert.info {
+    background-color: #e3f7fc;
+    color: #31708f;
+    border: 2px solid #bce8f1;
+    margin: 15px 0;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+// Efecto de entrada
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Contenedor principal
 .container {
     margin: 20px auto;
     padding: 20px;
-    max-width: 800px;
+    max-width: 700px;
     text-align: center;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
 }
 
+// Barra de navegación
 .Nav {
     font-size: 1.2rem;
     font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }
 
+.nav-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 10px;
+    font-size: 1rem;
+}
+
+.nav-button:hover {
+    background-color: #0056b3;
+}
+
+// Título y descripción
 .title h1 {
     font-size: 2rem;
+    color: #333;
     margin-bottom: 10px;
 }
 
@@ -23,6 +115,7 @@
     color: #666;
 }
 
+// Enlaces del menú
 .message,
 .message1,
 .message2,
@@ -33,21 +126,25 @@
     cursor: pointer;
     color: #007bff;
     text-decoration: underline;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #0056b3;
+        text-decoration: none;
+    }
 }
 
+// Estilo de cierre de sesión
 .message6 {
     color: red;
     font-weight: bold;
+
+    &:hover {
+        color: darkred;
+    }
 }
 
-.message:hover,
-.message1:hover,
-.message2:hover,
-.message3:hover,
-.message6:hover {
-    text-decoration: none;
-}
-
+// Pie de página
 h5 {
     margin-top: 20px;
     font-size: 0.8rem;

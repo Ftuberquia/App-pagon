@@ -48,6 +48,30 @@
     }
 }
 
+// alert
+
+.alert {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.alert.error {
+    background-color: #ffe5e5;
+    color: #d9534f;
+    border: 2px solid #d9534f;
+}
+
+.alert.success {
+    background-color: #e5ffe5;
+    color: #5cb85c;
+    border: 2px solid #5cb85c;
+}
+
+
 // Tooltip styles in SASS with responsiveness
 .tooltip {
     position: absolute;
