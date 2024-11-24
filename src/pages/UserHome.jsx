@@ -35,7 +35,7 @@ const UserHome = () => {
             setAlertType('success');
 
             const redirectTimer = setTimeout(() => {
-                navigate('/login');
+                navigate('/');
             }, 1000);
 
             return () => clearTimeout(redirectTimer);
