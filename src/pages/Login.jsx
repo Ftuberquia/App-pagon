@@ -1,13 +1,13 @@
-import './Login.scss';
 import React, { useState } from 'react';
+import './Login.scss';
 
 const LoginPage = () => {
     const [showEmailTooltip, setShowEmailTooltip] = useState(false);
     const [showPasswordTooltip, setShowPasswordTooltip] = useState(false);
-    const [alertMessage, setAlertMessage] = useState(''); // Estado para el mensaje de alerta
-    const [alertType, setAlertType] = useState(''); // Estado para el tipo de alerta (error, éxito, etc.)
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('');
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
         const email = document.getElementById('email').value.trim();
@@ -26,21 +26,35 @@ const LoginPage = () => {
             return;
         }
 
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const user = users.find((u) => u.email === email && u.password === password);
+        // Enviar los datos al backend
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
 
-        if (!user) {
-            setAlertMessage('Correo o contraseña incorrectos. Intenta nuevamente.');
+            const result = await response.json();
+
+            if (!response.ok) {
+                setAlertMessage(result.message);
+                setAlertType('error');
+                return;
+            }
+
+            // Guardar el token y el usuario en el almacenamiento local
+            localStorage.setItem('authToken', result.token);
+            localStorage.setItem('authUser', JSON.stringify(result.users));
+
+            setAlertMessage('Inicio de sesión exitoso');
+            setAlertType('success');
+            setTimeout(() => {
+                window.location.href = '/home'; // Redirigir a la página de inicio
+            }, 1000);
+        } catch (error) {
+            setAlertMessage('Error al iniciar sesión.');
             setAlertType('error');
-            return;
         }
-
-        localStorage.setItem('authUser', JSON.stringify(user));
-        setAlertMessage('Inicio de sesión exitoso');
-        setAlertType('success');
-        setTimeout(() => {
-            window.location.href = '/home';
-        }, 1000); // Redirigir después de un segundo
     };
 
     return (

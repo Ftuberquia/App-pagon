@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PaymentModal from '../components/PaymentModal';
+import TransactionHistory from '../components/TransactionHistory';
 import './UserHome.scss';
 
 const UserHome = () => {
@@ -7,6 +9,8 @@ const UserHome = () => {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('');
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+    const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
 
     // Obtener el usuario autenticado desde localStorage
     const authUser = JSON.parse(localStorage.getItem('authUser'));
@@ -75,15 +79,27 @@ const UserHome = () => {
                         <h1>Bienvenido a tu Menú</h1>
                         <p>{authUser.email}</p>
                     </div>
-                    <h4 className="message2">Realizar pagos</h4>
-                    <h4 className="message1">Historial de transacciones</h4>
-                    <h4 className="message1">Configuración de cuenta</h4>
-                    <h4 className="message">Mensajes y noticias</h4>
-                    <h4 className="message">Mensajes y promociones</h4>
-                    <h4 className="message3">Ayuda</h4>
+                    <h4 onClick={() => setIsPaymentModalOpen(true)}>Realizar pagos y recargas</h4>
+                    <h4 onClick={() => setIsTransactionModalOpen(true)}>Historial de transacciones</h4>
+                    <h4 >Configuración de cuenta</h4>
+                    <h4 >Mensajes y noticias</h4>
+                    <h4 >Mensajes y promociones</h4>
+                    <h4 >Ayuda</h4>
                     <h4 className="message6" onClick={handleLogout}>
                         Cerrar sesión
                     </h4>
+                    {/* Modales */}
+                    <PaymentModal
+                        isOpen={isPaymentModalOpen}
+                        closeModal={() => setIsPaymentModalOpen(false)}
+                        userId={authUser.id}
+                    />
+                    {isTransactionModalOpen && (
+                        <div className="modal">
+                            <TransactionHistory userId={authUser.id} />
+                            <button onClick={() => setIsTransactionModalOpen(false)}>Cerrar</button>
+                        </div>
+                    )}
                 </>
             )}
         </div>

@@ -134,13 +134,63 @@
     }
 }
 
+h4 {
+    color: #333; // Color de texto
+    font-size: 1.2rem; // Ajusta el tamaño de la fuente
+    margin: 10px 0; // Espaciado entre los títulos
+    font-weight: bold;
+    text-transform: capitalize;
+    cursor: pointer;
+    text-decoration: none; // Elimina la línea subrayada
+    position: relative;
+
+    &:hover {
+        color: #00b50f; // Color al pasar el cursor
+        transform: scale(1.05); // Agranda ligeramente
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        height: 2px;
+        width: 80%;
+        background: #00b50f;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    &:hover:before {
+        transform: scaleX(1);
+    }
+}
+
+
 // Estilo de cierre de sesión
 .message6 {
     color: red;
     font-weight: bold;
+    text-decoration: none;
 
     &:hover {
         color: darkred;
+        font-weight: 20px;
+        transform: scale(1.05);
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        height: 2px;
+        width: 80%;
+        background: darkred;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease-in-out;
     }
 }
 

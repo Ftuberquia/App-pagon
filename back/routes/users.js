@@ -3,7 +3,7 @@ const router = express.Router();
 
 // Rutas de ejemplo
 router.get('/', (req, res) => {
-    res.send('User route working!');
+    res.send('¡La ruta del usuario funciona!');
 });
 
 module.exports = router;

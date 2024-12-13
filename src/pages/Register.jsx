@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Register.scss';
 
 const Register = () => {
-    const [showNameTooltip, setShowNameTooltip] = React.useState(false);
-    const [showEmailTooltip, setShowEmailTooltip] = React.useState(false);
-    const [showPasswordTooltip, setShowPasswordTooltip] = React.useState(false);
+    const [showNameTooltip, setShowNameTooltip] = useState(false);
+    const [showEmailTooltip, setShowEmailTooltip] = useState(false);
+    const [showPasswordTooltip, setShowPasswordTooltip] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('');
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
 
         // Obtén los valores del formulario
@@ -16,44 +18,63 @@ const Register = () => {
 
         // Validar que no haya campos vacíos
         if (!name || !email || !password) {
-            alert('Por favor, completa todos los campos.');
+            setAlertMessage('Por favor, completa todos los campos.');
+            setAlertType('error');
             return;
         }
 
         // Validar formato de email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            alert('Por favor, ingresa un correo electrónico válido.');
+            setAlertMessage('Por favor, ingresa un correo electrónico válido.');
+            setAlertType('error');
             return;
         }
 
         // Validar requisitos de la contraseña
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         if (!passwordRegex.test(password)) {
-            alert(
-                'La contraseña debe tener al menos 8 caracteres, incluyendo una mayúscula, un número y un símbolo.'
-            );
+            setAlertMessage('La contraseña debe tener al menos 8 caracteres, incluyendo una mayúscula, un número y un símbolo.');
+            setAlertType('error');
             return;
         }
 
-        // Verificar si el correo ya está registrado
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        if (users.some((user) => user.email === email)) {
-            alert('Este correo ya está registrado. Intenta iniciar sesión.');
-            return;
+        // Enviar los datos al backend
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                setAlertMessage(result.message);
+                setAlertType('error');
+                return;
+            }
+
+            setAlertMessage('Registro exitoso. Ahora puedes iniciar sesión.');
+            setAlertType('success');
+            window.location.href = '/login'; // Redirigir a login
+        } catch (error) {
+            setAlertMessage('Error al registrar el usuario.');
+            setAlertType('error');
         }
-
-        // Guardar el nuevo usuario
-        users.push({ name, email, password });
-        localStorage.setItem('users', JSON.stringify(users));
-
-        alert('Registro exitoso. Ahora puedes iniciar sesión.');
-        window.location.href = '/login'; // Redirige a la página de inicio de sesión
     };
 
     return (
         <div className="register-page">
             <h1>Registrarse</h1>
+
+            {/* Alerta */}
+            {alertMessage && (
+                <div className={`alert ${alertType}`}>
+                    {alertMessage}
+                </div>
+            )}
+
             <form className="register-form" onSubmit={handleRegister}>
                 <div className="form-group" style={{ position: 'relative' }}>
                     <label htmlFor="name">Nombre Completo</label>
