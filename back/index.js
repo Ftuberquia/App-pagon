@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db"); // Archivo para conectar a MongoDB
 const authRoutes = require('./routes/auth');  // Importar las rutas de autenticación
+const transactionRoutes = require("./routes/transactions"); // Importar rutas de transacciones
 
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.json()); // Habilitar JSON para manejar solicitudes con cuerpo J
 // Rutas de la aplicación
 app.use("/api/auth", require("./routes/auth")); // Rutas para autenticación
 app.use("/api/users", require("./routes/users")); // Rutas para usuarios
+app.use("/api/transactions", transactionRoutes); // Usar las rutas de transacciones
 
 // Ruta base para comprobar el estado del servidor
 app.get("/", (req, res) => {

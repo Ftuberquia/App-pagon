@@ -11,6 +11,8 @@ const UserHome = () => {
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
+    const [totalRecargas, setTotalRecargas] = useState(0);
+    const userId = "userId_example"; // Cambia esto por el ID real del usuario
 
     // Obtener el usuario autenticado desde localStorage
     const authUser = JSON.parse(localStorage.getItem('authUser'));
@@ -77,9 +79,10 @@ const UserHome = () => {
 
                     <div className="title">
                         <h1>Bienvenido a tu Menú</h1>
+                        <p>Saldo Total: ${totalRecargas}</p>
                         <p>{authUser.email}</p>
                     </div>
-                    <h4 onClick={() => setIsPaymentModalOpen(true)}>Realizar pagos y recargas</h4>
+                    <h4 onClick={() => setIsPaymentModalOpen(true)}>Realizar pagos o recargas</h4>
                     <h4 onClick={() => setIsTransactionModalOpen(true)}>Historial de transacciones</h4>
                     <h4 >Configuración de cuenta</h4>
                     <h4 >Mensajes y noticias</h4>
@@ -96,7 +99,8 @@ const UserHome = () => {
                     />
                     {isTransactionModalOpen && (
                         <div className="modal">
-                            <TransactionHistory userId={authUser.id} />
+                            <TransactionHistory
+                                userId={authUser.id} setTotalRecargas={setTotalRecargas} />
                             <button onClick={() => setIsTransactionModalOpen(false)}>Cerrar</button>
                         </div>
                     )}

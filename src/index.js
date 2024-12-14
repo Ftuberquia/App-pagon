@@ -4,6 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'; // Importar BrowserRouter
+import Modal from 'react-modal'; // Importar react-modal
+
+// Configurar el elemento raíz para react-modal
+Modal.setAppElement('#root'); // Asegúrate de que coincida con el ID del elemento principal en tu HTML
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

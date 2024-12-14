@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import './UserHome.scss';
+import './PaymentModal.scss';
 
 const PaymentModal = ({ isOpen, closeModal, userId }) => {
     const [amount, setAmount] = useState('');
@@ -13,7 +13,7 @@ const PaymentModal = ({ isOpen, closeModal, userId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/transactions', {
+            const response = await axios.post('http://localhost:5000/api/transactions', {
                 userId,
                 amount: parseFloat(amount),
                 type,
@@ -26,7 +26,8 @@ const PaymentModal = ({ isOpen, closeModal, userId }) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel="Formulario de Pago" className="modal" overlayClassName="overlay">
+        <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel="Formulario de Pago"
+            className="payment-modal" overlayClassName="modal-backdrop">
             <h2>Formulario de Pago</h2>
             {message && <p className="message">{message}</p>}
             <form onSubmit={handleSubmit}>
@@ -42,8 +43,8 @@ const PaymentModal = ({ isOpen, closeModal, userId }) => {
                 <div>
                     <label>Tipo:</label>
                     <select value={type} onChange={(e) => setType(e.target.value)}>
-                        <option value="payment">Pago</option>
                         <option value="deposit">Recarga</option>
+                        <option value="payment">Pago</option>
                     </select>
                 </div>
                 <button type="submit">Confirmar</button>
