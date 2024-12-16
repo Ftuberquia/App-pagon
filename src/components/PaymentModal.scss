@@ -4,21 +4,15 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
-    /* Responsivo: ocupa casi toda la pantalla en dispositivos pequeños */
-    max-width: 400px;
-    /* Máximo ancho en pantallas más grandes */
-    background-color: #fff;
-    /* Fondo blanco para contraste */
-    border-radius: 12px;
-    /* Bordes redondeados */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 181, 15, 0.5);
-    /* Sombra verde personalizada */
-    padding: 20px;
+    max-width: 450px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    padding: 25px;
     z-index: 1000;
-    animation: fadeIn 0.3s ease-out;
+    animation: slideIn 0.4s ease-in-out;
 
-    /* Transición de entrada */
-    @keyframes fadeIn {
+    @keyframes slideIn {
         from {
             opacity: 0;
             transform: translate(-50%, -60%);
@@ -30,55 +24,71 @@
         }
     }
 
-    /* Título del modal */
     &__header {
         font-size: 1.8rem;
-        font-weight: bold;
-        color: #00b50f;
-        /* Verde del proyecto */
-        margin-bottom: 15px;
+        font-weight: 600;
         text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 10px;
     }
 
-    /* Contenido del modal */
-    &__body {
+    &__message {
         font-size: 1rem;
-        color: #333;
-        /* Texto oscuro para legibilidad */
-        line-height: 1.6;
-        margin-bottom: 20px;
+        color: #ff4d4f;
+        text-align: center;
+        margin-bottom: 15px;
+    }
 
-        input,
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        &__field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__label {
             font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        &__input,
+        &__select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
 
             &:focus {
                 outline: none;
                 border-color: #00b50f;
-                box-shadow: 0 0 5px rgba(0, 181, 15, 0.5);
+                box-shadow: 0 0 5px rgba(0, 181, 15, 0.3);
             }
         }
 
         .preset-buttons {
             display: flex;
             justify-content: space-between;
+            gap: 10px;
 
-            button {
+            .preset-button {
                 flex: 1;
-                margin: 5px;
                 padding: 10px;
                 font-size: 0.9rem;
                 border: none;
-                border-radius: 5px;
-                background-color: #00b50f;
-                color: white;
+                border-radius: 8px;
+                background: #38b943;
+                color: #fff;
                 cursor: pointer;
-                transition: transform 0.2s ease, background-color 0.3s ease;
+                transition: transform 0.2s, background-color 0.3s;
 
                 &:hover {
                     background-color: #009d0e;
@@ -88,27 +98,26 @@
         }
     }
 
-    /* Botones del modal */
     &__footer {
         display: flex;
         justify-content: space-between;
         gap: 10px;
+        margin-top: 20px;
 
-        button {
+        .payment-modal__button {
             flex: 1;
-            padding: 12px 20px;
+            padding: 12px;
             font-size: 1rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
             text-transform: uppercase;
-            font-weight: bold;
-            transition: transform 0.2s ease, background-color 0.3s ease;
+            transition: transform 0.2s, background-color 0.3s;
 
-            /* Botón verde */
             &--confirm {
-                background-color: #00b50f;
-                color: white;
+                background-color: #38b943;
+                color: #fff;
 
                 &:hover {
                     background-color: #009d0e;
@@ -116,13 +125,12 @@
                 }
             }
 
-            /* Botón gris */
             &--cancel {
-                background-color: #f0f0f0;
+                background-color: #f5f5f5;
                 color: #333;
 
                 &:hover {
-                    background-color: #e0e0e0;
+                    background-color: #e48181;
                     transform: scale(1.05);
                 }
             }
@@ -130,15 +138,13 @@
     }
 }
 
-/* Fondo oscuro detrás del modal */
 .modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* Oscurece el fondo */
+    background-color: rgba(0, 0, 0, 0.6);
     z-index: 999;
     animation: fadeInBackdrop 0.3s ease-out;
 

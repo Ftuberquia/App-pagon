@@ -79,8 +79,8 @@ const UserHome = () => {
 
                     <div className="title">
                         <h1>Bienvenido a tu Menú</h1>
-                        <p>Saldo Total: ${totalRecargas}</p>
                         <p>{authUser.email}</p>
+                        <p>Saldo Total: ${totalRecargas}</p>
                     </div>
                     <h4 onClick={() => setIsPaymentModalOpen(true)}>Realizar pagos o recargas</h4>
                     <h4 onClick={() => setIsTransactionModalOpen(true)}>Historial de transacciones</h4>
@@ -98,11 +98,11 @@ const UserHome = () => {
                         userId={authUser.id}
                     />
                     {isTransactionModalOpen && (
-                        <div className="modal">
-                            <TransactionHistory
-                                userId={authUser.id} setTotalRecargas={setTotalRecargas} />
-                            <button onClick={() => setIsTransactionModalOpen(false)}>Cerrar</button>
-                        </div>
+                        <TransactionHistory
+                            userId={authUser.id}
+                            setTotalRecargas={setTotalRecargas}
+                            closeModal={() => setIsTransactionModalOpen(false)} // Prop para cerrar el modal
+                        />
                     )}
                 </>
             )}

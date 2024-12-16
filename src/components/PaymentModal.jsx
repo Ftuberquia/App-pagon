@@ -26,31 +26,75 @@ const PaymentModal = ({ isOpen, closeModal, userId }) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel="Formulario de Pago"
-            className="payment-modal" overlayClassName="modal-backdrop">
-            <h2>Formulario de Pago</h2>
-            {message && <p className="message">{message}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Monto:</label>
-                    <input type="number" value={amount} onChange={(e) => handleAmountChange(e.target.value)} min="2000" />
+        <Modal
+            isOpen={isOpen}
+            onRequestClose={closeModal}
+            contentLabel="Formulario de Pago"
+            className="payment-modal"
+            overlayClassName="modal-backdrop"
+        >
+            <h2 className="payment-modal__header">Formulario de Pago</h2>
+            {message && <p className="payment-modal__message">{message}</p>}
+            <form className="payment-modal__body" onSubmit={handleSubmit}>
+                <div className="payment-modal__field">
+                    <label className="payment-modal__label">Monto:</label>
+                    <input
+                        type="number"
+                        className="payment-modal__input"
+                        value={amount}
+                        onChange={(e) => handleAmountChange(e.target.value)}
+                        min="2000"
+                    />
                     <div className="preset-buttons">
-                        <button type="button" onClick={() => handleAmountChange(5000)}>5,000</button>
-                        <button type="button" onClick={() => handleAmountChange(10000)}>10,000</button>
-                        <button type="button" onClick={() => handleAmountChange(20000)}>20,000</button>
+                        <button
+                            type="button"
+                            className="preset-button"
+                            onClick={() => handleAmountChange(5000)}
+                        >
+                            5,000
+                        </button>
+                        <button
+                            type="button"
+                            className="preset-button"
+                            onClick={() => handleAmountChange(10000)}
+                        >
+                            10,000
+                        </button>
+                        <button
+                            type="button"
+                            className="preset-button"
+                            onClick={() => handleAmountChange(20000)}
+                        >
+                            20,000
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <label>Tipo:</label>
-                    <select value={type} onChange={(e) => setType(e.target.value)}>
+                <div className="payment-modal__field">
+                    <label className="payment-modal__label">Tipo:</label>
+                    <select
+                        value={type}
+                        className="payment-modal__select"
+                        onChange={(e) => setType(e.target.value)}
+                    >
                         <option value="deposit">Recarga</option>
                         <option value="payment">Pago</option>
                     </select>
                 </div>
-                <button type="submit">Confirmar</button>
-                <button type="button" onClick={closeModal}>Cerrar</button>
+                <div className="payment-modal__footer">
+                    <button type="submit" className="payment-modal__button payment-modal__button--confirm">
+                        Confirmar
+                    </button>
+                    <button
+                        type="button"
+                        className="payment-modal__button payment-modal__button--cancel"
+                        onClick={closeModal}
+                    >
+                        Cerrar
+                    </button>
+                </div>
             </form>
         </Modal>
+
     );
 };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -26,11 +27,12 @@ ChartJS.register(
     Legend
 );
 
-const TransactionHistory = ({ userId, setTotalRecargas }) => {
+const TransactionHistory = ({ userId, setTotalRecargas, closeModal }) => {
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [totalRecargas, setLocalTotalRecargas] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false); // Modal cerrado por defecto
+    const [isModalOpen, setIsModalOpen] = useState(true); // Modal abierto por defecto
+    const navigate = useNavigate(); // Hook para redirección
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -43,7 +45,6 @@ const TransactionHistory = ({ userId, setTotalRecargas }) => {
                 setLocalTotalRecargas(total);
                 setTotalRecargas(total);
                 setLoading(false); // Datos cargados, setea loading en false
-                setIsModalOpen(true); // Abre el modal después de cargar los datos
             } catch (error) {
                 console.error('Error al obtener las transacciones', error);
                 setLoading(false);
@@ -53,17 +54,15 @@ const TransactionHistory = ({ userId, setTotalRecargas }) => {
         fetchTransactions();
     }, [userId, setTotalRecargas]);
 
-    // const handleOverlayClick = (e) => {
-    //     if (e.target === e.currentTarget) {
-    //         setIsModalOpen(false);  // Cierra el modal si se hace clic fuera de él
-    //     }
-    // };
 
-    const closeModal = () => {
-        setIsModalOpen(false);  // Cierra el modal al hacer clic en el botón de cierre
+    const handleOverlayClick = (e) => {
+        if (e.target === e.currentTarget || e.target.classList.contains('close-btn')) {
+            closeModal(); // Llama al cierre si es un clic en el overlay o en el botón
+        }
     };
 
     if (loading) return <div>Cargando...</div>; // Muestra un mensaje mientras carga
+
 
     const chartData = {
         labels: transactions.map((t) => `${new Date(t.createdAt).toLocaleDateString()} ${new Date(t.createdAt).toLocaleTimeString()}`),
@@ -80,45 +79,44 @@ const TransactionHistory = ({ userId, setTotalRecargas }) => {
 
     return (
         isModalOpen && (
-            <div className="modal-overlay" >
-                <div className="modal">
-                    {/* Botón de cerrar en la parte superior */}
-                    <button className="close-btn" onClick={closeModal}>X</button>
+            <div className="modal-overlay" onClick={handleOverlayClick}>
+                {/* Botón de cerrar */}
+                <button className="close-btn" onClick={closeModal}>X</button>
 
-                    <h2 className="header">Historial de Transacciones</h2>
-                    <p>Total Recarga: ${totalRecargas}</p>
+                <h2 className="header">Historial de Transacciones</h2>
+                <p>Saldo Total : ${totalRecargas}</p>
 
-                    {/* Tabla de transacciones */}
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Monto</th>
-                                <th>Fecha</th>
-                                <th>Hora</th>
+                {/* Tabla */}
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Monto</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {transactions.map((t) => (
+                            <tr key={t._id}>
+                                <td>{t.type === 'deposit' ? 'Recarga' : 'Pago'}</td>
+                                <td>${t.amount}</td>
+                                <td>{new Date(t.createdAt).toLocaleDateString()}</td>
+                                <td>{new Date(t.createdAt).toLocaleTimeString()}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {transactions.map((t) => (
-                                <tr key={t._id}>
-                                    <td>{t.type === 'deposit' ? 'Recarga' : 'Pago'}</td>
-                                    <td>${t.amount}</td>
-                                    <td>{new Date(t.createdAt).toLocaleDateString()}</td>
-                                    <td>{new Date(t.createdAt).toLocaleTimeString()}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                        ))}
+                    </tbody>
+                </table>
 
-                    {/* Gráfico */}
-                    <Line data={chartData} />
+                {/* Gráfico */}
+                <Line data={chartData} />
 
-                    {/* Botón de cerrar en la parte inferior */}
-                    <button className="close-btn-bottom" onClick={closeModal}>Cerrar</button>
-                </div>
+                {/* Botón de cierre */}
+                {/* <button className="close-btn-bottom" onClick={closeModal}>Cerrar</button> */}
             </div>
         )
     );
+
 };
 
 export default TransactionHistory;
