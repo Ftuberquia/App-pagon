@@ -3,13 +3,23 @@ const bcrypt = require('bcryptjs');
 
 // Definir el esquema del usuario
 const UserSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    name: { type: String, required: [true, 'Name is required'], minlength: 3 },
+    email: {
+        type: String,
+        required: [true, 'Email is required'],
+        unique: true,
+        match: [/.+@.+\..+/, 'Please enter a valid email']
+    },
+    password: {
+        type: String,
+        required: [true, 'Password is required'],
+        minlength: 6
+    },
     role: { type: String, default: 'user' },
 }, {
-    timestamps: true,  // Esto crea automáticamente los campos createdAt y updatedAt
+    timestamps: true,
 });
+
 
 // Middleware para cifrar la contraseña antes de guardarla
 UserSchema.pre('save', async function (next) {

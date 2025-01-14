@@ -6,17 +6,28 @@ const register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
-        const existingUser = await User.findOne({ email });
-        if (existingUser) return res.status(400).json({ message: 'User already exists' });
+        // Validar campos requeridos
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
 
+        // Verificar si el usuario ya existe
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        // Crear nuevo usuario
         const users = new User({ name, email, password });
         await users.save();
 
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        console.error('Error in register:', error); // Log detallado
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
+
 
 const login = async (req, res) => {
     try {
