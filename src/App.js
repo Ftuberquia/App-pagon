@@ -7,6 +7,8 @@ import PublicHome from './components/PublicHome';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import UserHome from './pages/UserHome'; // Importa el componente de UserHome
+import AdminPanel from './pages/AdminPanel';
+
 
 // Componente para proteger rutas
 const PrivateRoute = ({ element: Component }) => {
@@ -24,6 +26,7 @@ function App() {
         <Route path="/help" element={<Help />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/admin" element={<AdminPanel />} />
 
         {/* Ruta protegida */}
         <Route path="/home" element={<PrivateRoute element={UserHome} />} />

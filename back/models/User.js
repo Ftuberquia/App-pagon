@@ -15,7 +15,9 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Password is required'],
         minlength: 6
     },
+    balance: { type: Number, default: 0 }, // Nuevo campo para el saldo
     role: { type: String, default: 'user' },
+    isSuspended: { type: Boolean, default: false }, // Nuevo campo para gestionar suspensión
 }, {
     timestamps: true,
 });
