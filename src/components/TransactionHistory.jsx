@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -31,8 +31,8 @@ const TransactionHistory = ({ userId, setTotalRecargas, closeModal }) => {
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [totalRecargas, setLocalTotalRecargas] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(true); // Modal abierto por defecto
-    const navigate = useNavigate(); // Hook para redirección
+    // const [isModalOpen, setIsModalOpen] = useState(true); // Modal abierto por defecto
+    // const navigate = useNavigate(); // Hook para redirección
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -78,16 +78,23 @@ const TransactionHistory = ({ userId, setTotalRecargas, closeModal }) => {
     };
 
     return (
-        isModalOpen && (
-            <div className="modal-overlay" onClick={handleOverlayClick}>
+        <div className="modal-overlay" onClick={handleOverlayClick}>
+            <div className="modal-container">
                 {/* Botón de cerrar */}
                 <button className="close-btn" onClick={closeModal}>X</button>
 
+                {/* Encabezado */}
                 <h2 className="header">Historial de Transacciones</h2>
-                <p>Saldo Total : ${totalRecargas}</p>
+                <p className="balance">Saldo Total: <span>${totalRecargas}</span></p>
 
-                {/* Tabla */}
-                <table className="table">
+                {/* Gráfico */}
+                <div className="chart-container">
+                    <h3 className="chart-title">Resumen de Movimientos</h3>
+                    <Line data={chartData} />
+
+                </div>
+                {/* Tabla de transacciones */}
+                <table className="transaction-table">
                     <thead>
                         <tr>
                             <th>Tipo</th>
@@ -108,13 +115,8 @@ const TransactionHistory = ({ userId, setTotalRecargas, closeModal }) => {
                     </tbody>
                 </table>
 
-                {/* Gráfico */}
-                <Line data={chartData} />
-
-                {/* Botón de cierre */}
-                {/* <button className="close-btn-bottom" onClick={closeModal}>Cerrar</button> */}
             </div>
-        )
+        </div>
     );
 
 };

@@ -53,3 +53,16 @@
         /* Coloca "Ayuda" hacia el extremo derecho */
     }
 }
+
+.navbar__admin .navbar__link {
+    font-weight: bold;
+    color: #d32f2f;
+    background-color: azure;
+    cursor: pointer;
+}
+
+.navbar__admin .navbar__link:hover {
+    color: #d33227;
+    background-color: black;
+
+}
